@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row"> 
+  <div class="col-3">
+    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+      <a class="nav-link active ajaxBtn" href="#" data-page="users"><span class="fas fa-home"></span> Home</a>
+      <a class="nav-link ajaxBtn" href="#" data-page="add"><span class="fas fa-user-plus"></span> Add User</a>
+    </div>
+   </div>
+   <div class="col-9">
+     <div id="ajaxBox"></div>
+   </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+$( document ).ready(function() {
+  var url_showpage= "{% url 'ajax_showpage' %}?page="
+  $('#ajaxBox').load(url_showpage+'{{page}}');
+  $('.ajaxBtn').click(function(e) {
+      e.preventDefault();
+      $('#ajaxBox').load(url_showpage + $(this).data('page'));
+      $("a.ajaxBtn").removeClass('active');
+      $(this).addClass('active');
+    });
+  $(document).on( "submit","form", function( event ) {
+    event.preventDefault();
+    $.post("{% url 'ajax_adduser' %}",$(this).serialize(),function( data ) {
+        alert( "Data Loaded: " + data);
+      });
+    // console.log( $( this ).serialize() );
+  });
+});
+</script>
+{% endblock %}
