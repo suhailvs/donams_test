@@ -2,25 +2,25 @@
 <form method="post">{% csrf_token %}
   <div class="form-group">
     <label for="FullName">Full Name</label>
-    <input type="text" class="form-control" name="fullname" placeholder="Full Name" required="">
+    <input type="text" class="form-control" name="fullname" placeholder="Full Name" id="div_id_fullname">
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Email</label>
-      <input type="email" class="form-control" placeholder="Email" name="email">
+      <input type="email" class="form-control" placeholder="Email" name="email" id="div_id_email">
     </div>
     <div class="form-group col-md-6">
       <label>Contact Number</label>
-      <input class="form-control" placeholder="Contact Number" name="contact">
+      <input class="form-control" placeholder="Contact Number" name="contact" id="div_id_contact">
     </div>
   </div>
   <div class="form-group">
     <label for="inputAddress">Address</label>
-    <input type="text" class="form-control" name="address1" placeholder="1234 Main St">
+    <input type="text" class="form-control" name="address1" placeholder="1234 Main St" id="div_id_address1">
   </div>
   <div class="form-group">
     <label for="inputAddress2">Address 2</label>
-    <input type="text" class="form-control" name="address2" placeholder="Apartment, studio, or floor">
+    <input type="text" class="form-control" name="address2" placeholder="Apartment, studio, or floor" id="div_id_address2">
   </div>
   <button type="submit" class="btn btn-primary"><span class="fas fa-plus-square"></span> Add User</button>
 </form>

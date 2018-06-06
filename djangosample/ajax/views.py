@@ -17,12 +17,21 @@ def ajax_showpage(request):
     
     return render(request,template,context)
 
+import json
 def ajax_adduser(request):
     if request.method=="POST":
         form = UserDetailForm(request.POST)
         if form.is_valid():
             form.save()
-        for key,value in request.POST.items():
-            print (key, value) 
-    return HttpResponse('hai')
+            message= 'success'
+        else:
+            message = dict([(key, value) for key, value in form.errors.items()])
+        return HttpResponse(json.dumps({"result": message, }), content_type='application/json')
+        
 
+def ajax_deleteuser(request):
+    try:
+        UserDetail.objects.get(pk=request.GET['id']).delete()       
+        resp='1'
+    except:resp='Failed'
+    return HttpResponse(resp)

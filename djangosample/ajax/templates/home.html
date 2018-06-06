@@ -27,10 +27,33 @@ $( document ).ready(function() {
     });
   $(document).on( "submit","form", function( event ) {
     event.preventDefault();
-    $.post("{% url 'ajax_adduser' %}",$(this).serialize(),function( data ) {
-        alert( "Data Loaded: " + data);
-      });
+    $.post("{% url 'ajax_adduser' %}",$(this).serialize(),function(response) {
+      if (response.result == 'success'){
+        alert('User details saved successfully.');
+        $('#ajaxBox').load(url_showpage+'add');
+      }else {
+        $("form").find(".errorField").remove();
+        for (var key in response.result) {
+          error = response.result[key][0];
+          field = $("form").find("#div_id_" + key)
+          // Attach error message before it
+          field.before('<small class="text-danger errorField">'+error+'</small>');
+        }
+      }
+    });
     // console.log( $( this ).serialize() );
+  });
+
+  $(document).on('click', '.delete_user', function () {  
+    var url="{% url 'ajax_deleteuser' %}?id="+$(this).data('userid');
+    var element = this;
+    if (confirm('Are you sure want to delete the User')) {
+        $.get(url).done(function(x){
+          if (x=='1') {
+            $(element).closest('tr').hide('slow');//.remove();
+          }else alert("Error: " + x);
+        })
+    }    
   });
 });
 </script>
