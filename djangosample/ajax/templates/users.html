@@ -3,10 +3,10 @@
   <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Contact</th><th></th></tr></thead>
   {% for user in users %}
   <tr>
-    <th scope="row">{{forloop.counter}}</th><td>{{user}}</td>
-    <td>xxx@gmail.com</td>
+    <th scope="row">{{forloop.counter}}</th><td>{{user.fullname}}</td>
+    <td>{{user.email}}</td>
     <td>      
-      2322222
+	    {{user.contact}}
     </td>
     <td><a class='btn btn-sm btn-danger' href="#"><span class="fas fa-minus"></span></a></td>
   </tr>
