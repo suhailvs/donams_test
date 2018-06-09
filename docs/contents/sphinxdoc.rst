@@ -1,0 +1,16 @@
+Sphinx Github pages setup
+=========================
+
+1. Create a folder **docs** in the root path.
+
+2. By default, Jekyll does not build any files or directories with underscore. Include an empty `.nojekyll` file in the `docs` folder to turn off Jekyll.
+
+3. If first time run `$ sphinx-quickstart`
+
+4. In the **docs** folder, create an `index.html` file and redirect to `./_build/html/index.html` for example like this::
+
+   <meta http-equiv="refresh" content="0; url=./_build/html/index.html" />
+
+5. Run `make html` then add, commit and push the repo.
+
+6. In your project config, choose to use the **docs** folder for your GitHub Pages.

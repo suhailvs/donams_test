@@ -1,0 +1,87 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sphinx Github pages setup &#8212; Django Ajax  documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Jquery load" href="ajaxload.html" />
+    <link rel="prev" title="Welcome to Django Ajax’s documentation!" href="../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ajaxload.html" title="Jquery load"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to Django Ajax’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Django Ajax  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="sphinx-github-pages-setup">
+<h1>Sphinx Github pages setup<a class="headerlink" href="#sphinx-github-pages-setup" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p class="first">Create a folder <strong>docs</strong> in the root path.</p>
+</li>
+<li><p class="first">By default, Jekyll does not build any files or directories with underscore. Include an empty <cite>.nojekyll</cite> file in the <cite>docs</cite> folder to turn off Jekyll.</p>
+</li>
+<li><p class="first">If first time run <cite>$ sphinx-quickstart</cite></p>
+</li>
+<li><p class="first">In the <strong>docs</strong> folder, create an <cite>index.html</cite> file and redirect to <cite>./_build/html/index.html</cite> for example like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">meta</span> <span class="n">http</span><span class="o">-</span><span class="n">equiv</span><span class="o">=</span><span class="s2">&quot;refresh&quot;</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;0; url=./_build/html/index.html&quot;</span> <span class="o">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run <cite>make html</cite> then add, commit and push the repo.</p>
+</li>
+<li><p class="first">In your project config, choose to use the <strong>docs</strong> folder for your GitHub Pages.</p>
+</li>
+</ol>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ajaxload.html" title="Jquery load"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to Django Ajax’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Django Ajax  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, suhail.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,148 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Jquery post a form and validate &#8212; Django Ajax  documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Jquery load a page to div from Django" href="ajaxload.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ajaxload.html" title="Jquery load a page to div from Django"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Django Ajax  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="jquery-post-a-form-and-validate">
+<h1>Jquery post a form and validate<a class="headerlink" href="#jquery-post-a-form-and-validate" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="frontend">
+<h2>Frontend<a class="headerlink" href="#frontend" title="Permalink to this headline">¶</a></h2>
+<p><cite>home.html</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;h1&gt;Add User&lt;/h1&gt;&lt;hr /&gt;
+&lt;form method=&quot;post&quot;&gt;{% csrf_token %}
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;FullName&quot;&gt;Full Name&lt;/label&gt;
+    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;fullname&quot; placeholder=&quot;Full Name&quot; id=&quot;div_id_fullname&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;form-row&quot;&gt;
+    &lt;div class=&quot;form-group col-md-6&quot;&gt;
+      &lt;label for=&quot;inputEmail4&quot;&gt;Email&lt;/label&gt;
+      &lt;input type=&quot;email&quot; class=&quot;form-control&quot; placeholder=&quot;Email&quot; name=&quot;email&quot; id=&quot;div_id_email&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group col-md-6&quot;&gt;
+      &lt;label&gt;Contact Number&lt;/label&gt;
+      &lt;input class=&quot;form-control&quot; placeholder=&quot;Contact Number&quot; name=&quot;contact&quot; id=&quot;div_id_contact&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;inputAddress&quot;&gt;Address&lt;/label&gt;
+    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;address1&quot; placeholder=&quot;1234 Main St&quot; id=&quot;div_id_address1&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;inputAddress2&quot;&gt;Address 2&lt;/label&gt;
+    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;address2&quot; placeholder=&quot;Apartment, studio, or floor&quot; id=&quot;div_id_address2&quot;&gt;
+  &lt;/div&gt;
+  &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;&lt;span class=&quot;fas fa-plus-square&quot;&gt;&lt;/span&gt; Add User&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+$(document).on( &quot;submit&quot;,&quot;form&quot;, function( event ) {
+  event.preventDefault();
+  $.post(&quot;{% url &#39;ajax_adduser&#39; %}&quot;,$(this).serialize(),function(response) {
+    if (response.result == &#39;success&#39;){
+      alert(&#39;User details saved successfully.&#39;);
+      $(&#39;#ajaxBox&#39;).load(url_showpage+&#39;add&#39;);
+    }else {
+      $(&quot;form&quot;).find(&quot;.errorField&quot;).remove();
+      for (var key in response.result) {
+        error = response.result[key][0];
+        field = $(&quot;form&quot;).find(&quot;#div_id_&quot; + key)
+        // Attach error message before it
+        field.before(&#39;&lt;small class=&quot;text-danger errorField&quot;&gt;&#39;+error+&#39;&lt;/small&gt;&#39;);
+      }
+    }
+  });
+});
+&lt;/script&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="backend">
+<h2>Backend<a class="headerlink" href="#backend" title="Permalink to this headline">¶</a></h2>
+<p><cite>views.py</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="k">def</span> <span class="nf">ajax_adduser</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="o">==</span><span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">UserDetailForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+      <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+      <span class="n">message</span><span class="o">=</span> <span class="s1">&#39;success&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">message</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">form</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">,</span> <span class="p">}),</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><cite>forms.py</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">UserDetailForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">clean_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">UserDetail</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;email already exist!&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">email</span>
+
+  <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">UserDetail</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;__all__&#39;</span>
+</pre></div>
+</div>
+<p><cite>urls.py</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;ajx/add/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ajax_adduser</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ajax_adduser&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ajaxload.html" title="Jquery load a page to div from Django"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Django Ajax  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, suhail.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

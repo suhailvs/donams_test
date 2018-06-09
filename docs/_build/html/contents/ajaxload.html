@@ -1,0 +1,102 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Jquery load a page to div from Django &#8212; Django Ajax  documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Jquery post a form and validate" href="formsubmit.html" />
+    <link rel="prev" title="Sphinx Github pages setup" href="sphinxdoc.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="formsubmit.html" title="Jquery post a form and validate"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sphinxdoc.html" title="Sphinx Github pages setup"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Django Ajax  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="jquery-load-a-page-to-div-from-django">
+<h1>Jquery load a page to div from Django<a class="headerlink" href="#jquery-load-a-page-to-div-from-django" title="Permalink to this headline">¶</a></h1>
+<p>Jquery Load a page from Django views</p>
+<div class="section" id="frontend">
+<h2>Frontend<a class="headerlink" href="#frontend" title="Permalink to this headline">¶</a></h2>
+<p><cite>home.html</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;div id=&quot;ajaxBox&quot;&gt;&lt;/div&gt;
+$( document ).ready(function() {
+  var url_showpage= &quot;{% url &#39;ajax_showpage&#39; %}?page=&quot;
+  $(&#39;#ajaxBox&#39;).load(url_showpage+&#39;{{page}}&#39;);
+});
+</pre></div>
+</div>
+</div>
+<div class="section" id="backend">
+<h2>Backend<a class="headerlink" href="#backend" title="Permalink to this headline">¶</a></h2>
+<p><cite>views.py</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ajax_showpage</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+  <span class="n">curpage</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">[</span><span class="s1">&#39;page&#39;</span><span class="p">]</span>
+  <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;page&#39;</span><span class="p">:</span><span class="n">curpage</span><span class="p">}</span>
+  <span class="k">if</span> <span class="n">curpage</span><span class="o">==</span><span class="s1">&#39;users&#39;</span><span class="p">:</span>
+    <span class="n">template</span><span class="o">=</span><span class="s1">&#39;users.html&#39;</span>
+    <span class="n">context</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">UserDetail</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="c1">#[&#39;suhail&#39;,&#39;sumee&#39;,&#39;vahee&#39;]</span>
+  <span class="k">elif</span> <span class="n">curpage</span><span class="o">==</span><span class="s1">&#39;add&#39;</span><span class="p">:</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;add_user.html&#39;</span>
+
+  <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">template</span><span class="p">,</span><span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><cite>urls.py</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;ajx/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ajax_showpage</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ajax_showpage&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="formsubmit.html" title="Jquery post a form and validate"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sphinxdoc.html" title="Sphinx Github pages setup"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Django Ajax  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, suhail.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>
